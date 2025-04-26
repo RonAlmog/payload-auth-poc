@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import './styles.css'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import Link from 'next/link'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -23,16 +25,18 @@ export default async function HomePage() {
   return (
     <div className="home">
       <div className="content">
-        <h2 className="text-3xl">Payload Todo List {user?.email}</h2>
-        <div className="todos">
-          <h2 className="text-xl font-bold">Todos</h2>
-          {todos?.docs.map((todo) => (
-            <div key={todo.id}>
-              <h3>{todo.title}</h3>
-              <p>{todo.description}</p>
-            </div>
-          ))}
-        </div>
+        <h2 className="text-3xl text-primary">Payload Todo List {user?.email}</h2>
+        <h2 className="text-xl font-bold text-primary">Todos</h2>
+        {todos?.docs.map((todo) => (
+          <Card key={todo.id} className="w-full max-w-sm">
+            <CardHeader>
+              <CardTitle>
+                <Link href={`/todos/${todo.id}`}>{todo.title}</Link>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>{todo.description}</CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )

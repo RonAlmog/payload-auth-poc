@@ -1,5 +1,6 @@
 // storage-adapter-import-placeholder
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
@@ -32,6 +33,10 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
     },
   }),
+  // db: postgresAdapter({
+  //   idType: 'uuid',
+
+  // }),
   sharp,
   plugins: [
     payloadCloudPlugin(),
