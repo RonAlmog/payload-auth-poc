@@ -5,17 +5,14 @@ import React from 'react'
 import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 
-export default async function HomePage() {
+export default async function TodosPage() {
   const headers = await getHeaders()
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
   const { user } = await payload.auth({ headers })
-
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   const todos = await payload.find({
     collection: 'todos',
@@ -25,8 +22,18 @@ export default async function HomePage() {
   return (
     <div className="home">
       <div className="content">
-        <h2 className="text-3xl text-primary">Payload Todo App {user?.email}</h2>
-        <h3>Home page</h3>
+        <h2 className="text-3xl text-primary">Payload Todo List {user?.email}</h2>
+        <h2 className="text-xl font-bold text-primary">Todos</h2>
+        {todos?.docs.map((todo) => (
+          <Card key={todo.id} className="w-full max-w-sm">
+            <CardHeader>
+              <CardTitle>
+                <Link href={`/todos/${todo.id}`}>{todo.title}</Link>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>{todo.description}</CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )
